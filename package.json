@@ -1,0 +1,103 @@
+{
+  "name": "fix-relative-imports-to-baseurl",
+  "displayName": "Fix relative imports to baseUrl",
+  "description": "A Visual Studio Code extension for fixing all relative imports to use the baseUrl defined in tsconfig.json.",
+  "version": "1.1.13",
+  "icon": "images/logo.png",
+  "license": "GPL-3.0",
+  "publisher": "iulian-radu-at",
+  "homepage": "https://marketplace.visualstudio.com/items?itemName=iulian-radu-at.fix-relative-imports-to-baseurl",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iulian-radu-at/fix-relative-imports-to-baseurl"
+  },
+  "sponsor": {
+    "url": "https://www.amazon.com/dp/B0DD3DNDY1"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "bugs": {
+    "url": "https://github.com/iulian-radu-at/fix-relative-imports-to-baseurl/issues"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run -S esbuild-base -- --minify",
+    "esbuild-base": "rimraf out && esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node --target=es6",
+    "esbuild": "npm run -S esbuild-base -- --sourcemap",
+    "package": "vsce package",
+    "install:local": "code --install-extension fix-relative-imports-to-baseurl-1.1.13.vsix --profile=\"VSCode extension\"",
+    "publish": "vsce publish",
+    "esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
+    "test-compile": "rimraf out && tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "yarn run compile && yarn run lint",
+    "test": "echo node ./out/test/runTest.js"
+  },
+  "categories": [
+    "Linters"
+  ],
+  "main": "./out/main.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "fixRelativeImportsToBaseurl.one",
+        "title": "Fix relative imports to baseUrl defined in tsconfig.json naved is here",
+        "icon": {
+          "light": "resources/light/fix.svg",
+          "dark": "resources/dark/fix.svg"
+        }
+      },
+      {
+        "command": "fixRelativeImportsToBaseurl.all",
+        "title": "Fix imports in all project files",
+        "icon": {
+          "light": "resources/light/fix.svg",
+          "dark": "resources/dark/fix.svg"
+        }
+      },
+      {
+        "command": "fixRelativeImportsToBaseurl.comment",
+        "title": "Comment all erraneaous imports",
+        "icon": {
+          "light": "resources/light/fix.svg",
+          "dark": "resources/dark/fix.svg"
+        }
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Fix relative imports to baseUrl",
+        "properties": {
+          "fixRelativeImportsToBaseurl.debug": {
+            "type": "boolean",
+            "default": false,
+            "description": "Fix relative imports to baseUrl: log all changes in an output window",
+            "scope": "resource"
+          },
+          "fixRelativeImportsToBaseurl.sources": {
+            "type": "array",
+            "default": [
+              "src"
+            ],
+            "description": "Fix relative imports to baseUrl: the list of folders to be scanned for relative imports",
+            "scope": "resource"
+          }
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "glob": "^10.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.68",
+    "@types/vscode": "1.75.1",
+    "@typescript-eslint/eslint-plugin": "8.3.0",
+    "@typescript-eslint/parser": "6.13.2",
+    "esbuild": "0.23.1",
+    "eslint": "9.9.1",
+    "rimraf": "6.0.1",
+    "typescript": "5.5.4"
+  }
+}
